@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/abc_ab_share_pack_holo_light"
+    android:padding="1dp">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Contact Name."
+        android:id="@+id/contactNameText"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:gravity="left|center"
+        android:layout_below="@+id/messageCountText"
+        android:textColor="@android:color/black"
+        android:padding="2dp"
+        android:textSize="20dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_alignLeft="@+id/lastSenderNameText"
+        android:layout_alignStart="@+id/lastSenderNameText" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="number of messages"
+        android:id="@+id/messageCountText"
+        android:gravity="right"
+        android:textColor="@android:color/secondary_text_dark"
+        android:padding="1dp"
+        android:textAlignment="center"
+        android:password="false"
+        android:phoneNumber="false"
+        android:layout_alignBaseline="@+id/lastSenderNameText"
+        android:layout_alignBottom="@+id/lastSenderNameText"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Last sender name"
+        android:id="@+id/lastSenderNameText"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:gravity="left"
+        android:padding="1dp"
+        android:textColor="@android:color/holo_blue_light"
+        android:layout_marginLeft="10dp" />
+</RelativeLayout>

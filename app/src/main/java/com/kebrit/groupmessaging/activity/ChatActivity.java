@@ -42,6 +42,8 @@ public class ChatActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        setTitle(getIntent().getStringExtra("contactName"));
+
         loadPreferences();
         myFirebase = Constants.myFirebase;
 

@@ -35,7 +35,7 @@ public class SplashActivity extends Activity {
 
         if (preferences.contains("USERNAME")) {
             Log.d("Kebrit", "userName exist . skip log_in activity.");
-            nextAcitvity = new Intent(SplashActivity.this, ChatActivity.class);
+            nextAcitvity = new Intent(SplashActivity.this, MainActivity.class);
             nextAcitvity.putExtra("USERNAME", preferences.getString("USERNAME", ""));
             extra = 500;
             return;

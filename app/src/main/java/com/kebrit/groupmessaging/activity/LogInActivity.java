@@ -86,7 +86,7 @@ public class LogInActivity extends Activity {
 
     private void goToNextActivity(String name) {
 
-        Intent myIntent = new Intent(LogInActivity.this, ChatActivity.class);
+        Intent myIntent = new Intent(LogInActivity.this, MainActivity.class);
         myIntent.putExtra("USERNAME", name);
         LogInActivity.this.startActivity(myIntent);
 
