@@ -9,5 +9,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/splashImageView"
         android:layout_weight="0.68"
-        android:src="@drawable/splash_image_ikiu" />
+        android:src="@drawable/splash_image_ikiu"
+        android:layout_margin="20dp" />
 </LinearLayout>

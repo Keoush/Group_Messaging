@@ -78,7 +78,7 @@ public class ChatActivity extends ActionBarActivity {
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Please enter some text...",
-                            Toast.LENGTH_LONG).show();
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });

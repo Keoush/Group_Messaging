@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -74,6 +75,7 @@ public class LogInActivity extends Activity {
                     goToNextActivity(uName);
 
                 } else {
+                    Log.d("kebrit", "hey you ");
                     Toast.makeText(LogInActivity.this, "usersname already exists\nenter new name.", Toast.LENGTH_LONG).show();
                 }
             }
