@@ -51,12 +51,12 @@ public class LogInActivity extends Activity {
 
                 final String name = nameText.getText().toString();
 
-                checkIfUserExists(name, name);
+                checkIfUserExists(name, name, passwordText.getText().toString());
             }
         });
     }
 
-    private void checkIfUserExists(final String uID, final String uName) {
+    private void checkIfUserExists(final String uID, final String uName, final String password) {
         myFirebase.child("users").child(uID).addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
@@ -66,17 +66,22 @@ public class LogInActivity extends Activity {
                     Map map = new HashMap();
                     map.put("userId", uID);
                     map.put("username", uName);
+                    map.put("password", password);
 
                     myFirebase.child("users").child(uID).setValue(map);
 
                     preferences.edit().putString("USERNAME", uName).commit();
                     preferences.edit().putString("USERID", uID).commit();
 
+                    Toast.makeText(LogInActivity.this, "New user created : " + uID, Toast.LENGTH_LONG).show();
+
                     goToNextActivity(uName);
 
-                } else {
-                    Log.d("kebrit", "hey you ");
-                    Toast.makeText(LogInActivity.this, "usersname already exists\nenter new name.", Toast.LENGTH_LONG).show();
+                }else if(( (Map) dataSnapshot.getValue()).get("password").toString().equals(password)){
+                    goToNextActivity(uName);
+                }
+                else {
+                    Toast.makeText(LogInActivity.this, "password dosent match\nand usersname already exists.", Toast.LENGTH_LONG).show();
                 }
             }
 
