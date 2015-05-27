@@ -63,19 +63,25 @@ public class LogInActivity extends Activity {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 if (dataSnapshot.getValue() == null) {
-                    Map map = new HashMap();
-                    map.put("userId", uID);
-                    map.put("username", uName);
-                    map.put("password", password);
+                    if(password.length() < 4){
+                        Toast.makeText(LogInActivity.this, "your password length must greater than 4 character\nplease enter new password." + uID, Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    else {
+                        Map map = new HashMap();
+                        map.put("userId", uID);
+                        map.put("username", uName);
+                        map.put("password", password);
 
-                    myFirebase.child("users").child(uID).setValue(map);
+                        myFirebase.child("users").child(uID).setValue(map);
 
-                    preferences.edit().putString("USERNAME", uName).commit();
-                    preferences.edit().putString("USERID", uID).commit();
+                        preferences.edit().putString("USERNAME", uName).commit();
+                        preferences.edit().putString("USERID", uID).commit();
 
-                    Toast.makeText(LogInActivity.this, "New user created : " + uID, Toast.LENGTH_LONG).show();
+                        Toast.makeText(LogInActivity.this, "New user created : " + uID, Toast.LENGTH_LONG).show();
 
-                    goToNextActivity(uName);
+                        goToNextActivity(uName);
+                    }
 
                 }else if(( (Map) dataSnapshot.getValue()).get("password").toString().equals(password)){
                     goToNextActivity(uName);
@@ -93,7 +99,7 @@ public class LogInActivity extends Activity {
 
     private void goToNextActivity(String name) {
 
-        Intent myIntent = new Intent(LogInActivity.this, MainActivity.class);
+        Intent myIntent = new Intent(LogInActivity.this, ChatActivity.class);
         myIntent.putExtra("USERNAME", name);
         LogInActivity.this.startActivity(myIntent);
 
