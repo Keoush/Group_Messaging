@@ -64,7 +64,8 @@ public class LogInActivity extends Activity {
 
                 if (dataSnapshot.getValue() == null) {
                     if(password.length() < 4){
-                        Toast.makeText(LogInActivity.this, "your password length must greater than 4 character\nplease enter new password." + uID, Toast.LENGTH_LONG).show();
+                        Toast.makeText(LogInActivity.this, "your password length must greater than 4 character\n" +
+                                "please enter new password.", Toast.LENGTH_LONG).show();
                         return;
                     }
                     else {

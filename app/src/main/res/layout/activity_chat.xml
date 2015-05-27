@@ -28,7 +28,8 @@
         android:layout_height="48dp"
         android:background="@android:color/white"
         android:paddingLeft="10dp"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:theme="@style/Base.V21.Theme.AppCompat">
 
 
         <EditText

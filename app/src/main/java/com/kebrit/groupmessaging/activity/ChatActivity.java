@@ -84,6 +84,9 @@ public class ChatActivity extends ActionBarActivity {
         });
 
         setMsgReceiver();
+
+        Toast.makeText(getApplicationContext(), "Please wait until messages load...",
+                Toast.LENGTH_LONG).show();
     }
 
     private void loadPreferences() {
