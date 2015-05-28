@@ -33,6 +33,7 @@ public class ChatActivity extends ActionBarActivity {
 
     private Firebase myFirebase;
     private boolean firstTime = true;
+    private boolean lock = true;
 
     private static String SENDER_ID = "defualt";
     private static String RECEIVER_ID = "Group";
@@ -63,7 +64,11 @@ public class ChatActivity extends ActionBarActivity {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!inputText.getText().toString().equals("")) {
+                if(lock){
+                    Toast.makeText(getApplicationContext(), "Please wait until messages load...",
+                            Toast.LENGTH_SHORT).show();
+                }
+                else if (!inputText.getText().toString().equals("")) {
 
                     firstTime = false;
 
@@ -118,10 +123,13 @@ public class ChatActivity extends ActionBarActivity {
     }
 
     private void setMsgReceiver() {
-        myFirebase.child("messages").addChildEventListener(new ChildEventListener() {
+        ChildEventListener childEventListener = myFirebase.child("messages").addChildEventListener(new ChildEventListener() {
 
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                if (lock)
+                    lock = false;
 
                 Map messageMap = (Map) dataSnapshot.getValue();
                 MessageClass msg = new MessageClass(messageMap.get("content").toString(), messageMap.get("senderId").toString()
