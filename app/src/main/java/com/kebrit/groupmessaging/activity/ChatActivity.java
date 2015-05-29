@@ -95,7 +95,7 @@ public class ChatActivity extends ActionBarActivity {
             @Override
             public Transaction.Result doTransaction(MutableData currentData) {
                 if(currentData.getValue() == null) {
-                    Log.d("kebrit:firebase", "no message in group.");
+                    Log.d("kebrit:firebase", "no message found in group.");
                     lock = false;
                 }
                 return Transaction.success(currentData); //we can also abort by calling Transaction.abort()
