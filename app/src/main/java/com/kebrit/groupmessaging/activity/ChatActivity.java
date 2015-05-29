@@ -15,6 +15,8 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.MutableData;
+import com.firebase.client.Transaction;
 import com.kebrit.groupmessaging.R;
 import com.kebrit.groupmessaging.adapter.MessageListAdapter;
 import com.kebrit.groupmessaging.util.Constants;
@@ -31,8 +33,6 @@ public class ChatActivity extends ActionBarActivity {
 
     private DateFormat dateFormatter;
 
-    private Firebase myFirebase;
-    private boolean firstTime = true;
     private boolean lock = true;
 
     private static String SENDER_ID = "defualt";
@@ -46,7 +46,6 @@ public class ChatActivity extends ActionBarActivity {
 //        setTitle(getIntent().getStringExtra("contactName"));
 
         loadPreferences();
-        myFirebase = Constants.myFirebase;
 
         dateFormatter = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
         dateFormatter.setLenient(false);
@@ -70,12 +69,7 @@ public class ChatActivity extends ActionBarActivity {
                 }
                 else if (!inputText.getText().toString().equals("")) {
 
-                    firstTime = false;
-
-                    final String msgContent = inputText.getText().toString();
-                    final MessageClass msg = new MessageClass(msgContent, SENDER_ID, RECEIVER_ID, dateFormatter.format(new Date()));
-
-                    adapter.addMessage(msg);
+                    final MessageClass msg = new MessageClass(inputText.getText().toString(), SENDER_ID, RECEIVER_ID, dateFormatter.format(new Date()));
 
                     sendMessageToFirebase(msg);
 
@@ -90,8 +84,27 @@ public class ChatActivity extends ActionBarActivity {
 
         setMsgReceiver();
 
+        checkMessageExistance();
+
         Toast.makeText(getApplicationContext(), "Please wait until messages load...",
                 Toast.LENGTH_LONG).show();
+    }
+
+    private void checkMessageExistance() {
+        Constants.myFirebase.child("messages").runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData currentData) {
+                if(currentData.getValue() == null) {
+                    Log.d("kebrit:firebase", "no message in group.");
+                    lock = false;
+                }
+                return Transaction.success(currentData); //we can also abort by calling Transaction.abort()
+            }
+            @Override
+            public void onComplete(FirebaseError firebaseError, boolean committed, DataSnapshot currentData) {
+                //This method will be called once with the results of the transaction.
+            }
+        });
     }
 
     private void loadPreferences() {
@@ -123,7 +136,7 @@ public class ChatActivity extends ActionBarActivity {
     }
 
     private void setMsgReceiver() {
-        ChildEventListener childEventListener = myFirebase.child("messages").addChildEventListener(new ChildEventListener() {
+        ChildEventListener childEventListener = Constants.myFirebase.child("messages").addChildEventListener(new ChildEventListener() {
 
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -137,11 +150,7 @@ public class ChatActivity extends ActionBarActivity {
 
                 Log.d("Kebrit:msg", "New msg added to DB: " + messageMap.get("senderId") + "->" + messageMap.get("content"));
 
-                if (firstTime) {
-                    adapter.addMessage(msg);
-                } else if (!messageMap.get("senderId").toString().equals(SENDER_ID)) {
-                    adapter.addMessage(msg);
-                }
+                adapter.addMessage(msg);
             }
 
             @Override
@@ -161,13 +170,13 @@ public class ChatActivity extends ActionBarActivity {
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-
+                Log.d("kebrit","hey...____________________________________");
             }
         });
     }
 
     private void sendMessageToFirebase(MessageClass msg) {
-        myFirebase.child("messages").push().
+        Constants.myFirebase.child("messages").push().
                 setValue(msg);
     }
 }
