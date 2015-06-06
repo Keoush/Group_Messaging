@@ -31,6 +31,8 @@ public class LogInActivity extends Activity {
 
     private Firebase myFirebase;
 
+    private Boolean connected;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,21 +56,44 @@ public class LogInActivity extends Activity {
                 checkIfUserExists(name, name, passwordText.getText().toString());
             }
         });
+
+        setConnectionChecker();
+    }
+
+    private void setConnectionChecker() {
+        Firebase connectedRef = new Firebase(Constants.URL_FIREBASE + ".info/connected");
+        connectedRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                connected = snapshot.getValue(Boolean.class);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError error) {
+                System.err.println("Listener was cancelled");
+            }
+        });
     }
 
     private void checkIfUserExists(final String uID, final String uName, final String password) {
+
+        if (!connected) {
+            Toast.makeText(getApplicationContext(), "You are not Connected to server ...",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         myFirebase.child("users").child(uID).addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 if (dataSnapshot.getValue() == null) {
-                    if(password.length() < 4){
+                    if (password.length() < 4) {
                         Toast.makeText(LogInActivity.this, "your password length must greater than 4 character\n" +
                                 "please enter new password.", Toast.LENGTH_LONG).show();
                         return;
-                    }
-                    else {
+                    } else {
                         Map map = new HashMap();
                         map.put("userId", uID);
                         map.put("username", uName);
@@ -84,10 +109,9 @@ public class LogInActivity extends Activity {
                         goToNextActivity(uName);
                     }
 
-                }else if(( (Map) dataSnapshot.getValue()).get("password").toString().equals(password)){
+                } else if (((Map) dataSnapshot.getValue()).get("password").toString().equals(password)) {
                     goToNextActivity(uName);
-                }
-                else {
+                } else {
                     Toast.makeText(LogInActivity.this, "password dosent match\nand usersname already exists.", Toast.LENGTH_LONG).show();
                 }
             }

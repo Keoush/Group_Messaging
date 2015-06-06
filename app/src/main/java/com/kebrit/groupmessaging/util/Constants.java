@@ -12,8 +12,8 @@ import com.firebase.client.Firebase;
  */
 public class Constants {
 
-//    public static String URL_FIREBASE = "https://instantmessaging.firebaseio.com/";  //reza
-    public static String URL_FIREBASE = "https://instantmessagingikiu.firebaseio.com/";   //keoush
+    public static String URL_FIREBASE = "https://instantmessaging.firebaseio.com/";  //reza
+//    public static String URL_FIREBASE = "https://instantmessagingikiu.firebaseio.com/";   //keoush
 
     public static String KEY_USER_ID = "userId";
     public static String KEY_USERNAME = "username";
