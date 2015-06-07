@@ -99,7 +99,6 @@ public class ChatActivity extends ActionBarActivity {
 
             @Override
             public void onCancelled(FirebaseError error) {
-                System.err.println("Listener was cancelled");
             }
         });
     }
