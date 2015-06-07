@@ -29,8 +29,6 @@ public class LogInActivity extends Activity {
 
     private SharedPreferences preferences;
 
-    private Firebase myFirebase;
-
     private Boolean connected;
 
     @Override
@@ -39,7 +37,6 @@ public class LogInActivity extends Activity {
         setContentView(R.layout.activity_log_in);
 
         Firebase.setAndroidContext(this);
-        myFirebase = new Firebase(Constants.URL_FIREBASE);
 
         preferences = getSharedPreferences("PREFERENCES", 0);
 
@@ -83,7 +80,7 @@ public class LogInActivity extends Activity {
             return;
         }
 
-        myFirebase.child("users").child(uID).addListenerForSingleValueEvent(new ValueEventListener() {
+        Constants.myFirebase.child("users").child(uID).addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -99,7 +96,7 @@ public class LogInActivity extends Activity {
                         map.put("username", uName);
                         map.put("password", password);
 
-                        myFirebase.child("users").child(uID).setValue(map);
+                        Constants.myFirebase.child("users").child(uID).setValue(map);
 
                         preferences.edit().putString("USERNAME", uName).commit();
                         preferences.edit().putString("USERID", uID).commit();

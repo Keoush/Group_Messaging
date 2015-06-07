@@ -95,10 +95,6 @@ public class ChatActivity extends ActionBarActivity {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 connected = snapshot.getValue(Boolean.class);
-                if (!connected) {
-                    Toast.makeText(getApplicationContext(), "You are not Connected/Disconnected to/from server ...",
-                            Toast.LENGTH_LONG).show();
-                }
             }
 
             @Override
@@ -138,9 +134,6 @@ public class ChatActivity extends ActionBarActivity {
 
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-                if (connected)
-                    connected = false;
 
                 Map messageMap = (Map) dataSnapshot.getValue();
                 MessageClass msg = new MessageClass(messageMap.get("content").toString(), messageMap.get("senderId").toString()
